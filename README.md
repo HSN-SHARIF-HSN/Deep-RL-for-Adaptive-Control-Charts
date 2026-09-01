@@ -158,6 +158,7 @@ The notebooks use only these third-party packages together with Python standard-
 4. Allow the Monte Carlo calibration, DQN training, checkpoint validation, and final evaluation stages to complete.
 
 The notebooks are simulation based; no external empirical dataset is required. The process observations used for training and evaluation are generated within the simulation environment defined in the notebooks. Thus, the simulation generator itself provides the example data needed to execute and verify the implementation.
+The default parameter and hyperparameter values used in the paper are retained in the notebooks. Users may modify these values to investigate alternative design settings and rerun the corresponding calibration, training, and evaluation procedures.
 
 ## Offline design and online monitoring (Phase I / Phase II interpretation)
 
