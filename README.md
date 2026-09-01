@@ -1,4 +1,4 @@
-# Reproducibility Code for DQN-VSSI-EWMA
+# Code for DQN-VSSI-EWMA
 
 This repository contains the Python/Jupyter Notebook implementation accompanying the paper:
 
