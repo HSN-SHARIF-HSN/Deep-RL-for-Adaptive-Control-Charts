@@ -142,7 +142,13 @@ The notebooks require a Python environment with the packages used in the noteboo
 - matplotlib
 - joblib
 
-Exact package versions can be specified in the user's environment if required for reproducibility.
+A minimal installation can be created with:
+
+```bash
+pip install numpy pandas torch scipy matplotlib joblib jupyter
+```
+
+The notebooks use only these third-party packages together with Python standard-library modules.
 
 ## How to run
 
@@ -151,7 +157,37 @@ Exact package versions can be specified in the user's environment if required fo
 3. Run the cells in order from the beginning of the notebook.
 4. Allow the Monte Carlo calibration, DQN training, checkpoint validation, and final evaluation stages to complete.
 
-The notebooks are simulation based; no external empirical dataset is required. The process observations used for training and evaluation are generated within the simulation environment defined in the notebooks.
+The notebooks are simulation based; no external empirical dataset is required. The process observations used for training and evaluation are generated within the simulation environment defined in the notebooks. Thus, the simulation generator itself provides the example data needed to execute and verify the implementation.
+
+## Offline design and online monitoring (Phase I / Phase II interpretation)
+
+The numerical study assumes that the in-control process parameters are known. Therefore, it does not include a separate empirical Phase I parameter-estimation dataset. Instead, the code contains the complete **offline design stage** required before deployment:
+
+1. specify the in-control model, EWMA parameters, admissible sampling actions, and resource targets;
+2. calibrate the EWMA control-limit coefficient to the target in-control ARL;
+3. construct the DQN environment and state representation;
+4. train the DQN in two stages;
+5. evaluate candidate checkpoints under the in-control resource constraints; and
+6. select the feasible checkpoint with the best validation ATS performance.
+
+After this offline stage, the trained network is fixed. During **Phase II-style online monitoring**, the DQN does not retrain. At each sampling epoch, the current monitoring state is formed, the greedy trained policy selects the next sample size and sampling interval, the EWMA statistic is updated from the new sample, and the calibrated EWMA control limit determines whether a signal occurs.
+
+`General_Case.ipynb`, Cell 3, provides illustrative sequential monitoring examples of this deployment stage.
+
+## Adapting the implementation
+
+The notebooks can be modified to examine alternative monitoring designs by changing the relevant configuration values before rerunning calibration and training. Examples include:
+
+- the EWMA smoothing parameter;
+- the target in-control ARL;
+- the target average sample size or sampling interval;
+- the admissible `(n, h)` action space;
+- the shift sizes used for DQN training or checkpoint validation; and
+- Monte Carlo replication sizes.
+
+For an empirical application, the present notebooks should be viewed as a reference implementation rather than a plug-and-play data-import interface. The current simulation generates the standardized sample statistic internally. To use observed process data, the data-generation portion would need to be replaced by the corresponding standardized statistic computed from the user's samples under an appropriate in-control reference model. The trained DQN can then use the resulting EWMA state to select the next sampling action.
+
+Because the learned policy is configuration-specific, changes to the process model, EWMA smoothing parameter, control-chart target, admissible action space, or resource targets generally require offline recalibration and retraining before deployment. If the in-control mean and standard deviation are unknown, they must first be estimated from suitable Phase I reference data before applying the present framework.
 
 ## Main design settings
 
@@ -175,7 +211,7 @@ The final policy is selected using checkpoint-based statistical validation rathe
 
 ## Scope
 
-The numerical study is a proof-of-concept under the simulation assumptions described in the paper, including independent normal observations and known in-control process parameters. The code is intended to provide a transparent implementation of the proposed methodology and a basis for further experimentation and extension.
+The numerical study is a proof-of-concept under the simulation assumptions described in the paper, including independent normal observations and known in-control process parameters. The code is intended to provide a transparent implementation of the proposed methodology, reproduce the principal computational pipeline and numerical evaluation reported in the paper, and provide a basis for further experimentation and extension. The repository is not intended to reproduce every sensitivity or ablation experiment in the manuscript as a separate notebook.
 
 ## Citation
 
