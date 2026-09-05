@@ -160,6 +160,11 @@ The notebooks use only these third-party packages together with Python standard-
 The notebooks are simulation based; no external empirical dataset is required. The process observations used for training and evaluation are generated within the simulation environment defined in the notebooks. Thus, the simulation generator itself provides the example data needed to execute and verify the implementation.
 The default parameter and hyperparameter values used in the paper are retained in the notebooks. Users may modify these values to investigate alternative design settings and rerun the corresponding calibration, training, and evaluation procedures.
 
+### Parallel computation and exact reproducibility
+
+The notebooks set `N_JOBS = min(8, max(1, os.cpu_count() - 1))`. Monte Carlo replications are divided among these workers, with deterministic worker-specific random seeds. Therefore, machines with different CPU counts may use different random-number streams and produce slightly different Monte Carlo estimates. For exact replication of the reported computational streams, set `N_JOBS = 8`, which is the setting used for the reported runs.
+
+
 ## Offline design and online monitoring (Phase I / Phase II interpretation)
 
 The numerical study assumes that the in-control process parameters are known. Therefore, it does not include a separate empirical Phase I parameter-estimation dataset. Instead, the code contains the complete **offline design stage** required before deployment:
