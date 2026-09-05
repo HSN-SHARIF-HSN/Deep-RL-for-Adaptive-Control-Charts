@@ -163,17 +163,17 @@ The default parameter and hyperparameter values used in the paper are retained i
 ### Parallel computation and reproducibility
 
 The notebooks determine the number of parallel workers using
-`N_JOBS = min(8, max(1, os.cpu_count() - 1))`. Thus, up to 8 workers are
-used while leaving one logical CPU available. A machine reporting at
-least 9 logical CPUs will therefore use `N_JOBS = 8` automatically;
-for example, a machine with 8 logical CPUs will use 7 workers, while a
-machine with 4 will use 3.
+`N_JOBS = min(8, max(1, os.cpu_count() - 1))`. Thus, the code uses up to
+8 workers while leaving one logical CPU available. A machine reporting
+at least 9 logical CPUs will use 8 workers automatically, whereas
+machines with fewer logical CPUs will use fewer workers.
 
 Monte Carlo replications are divided among workers using deterministic
-worker-specific random seeds. Consequently, using a different number of
-workers may lead to small differences in Monte Carlo estimates. To
-reproduce the same parallel random-number streams used for the reported
-results, set `N_JOBS = 8`.
+worker-specific random seeds. Consequently, machines using different
+numbers of workers may produce slightly different Monte Carlo estimates,
+although the same computational procedure is followed and the main
+training seed is held fixed (12345). The reported results were obtained
+with `N_JOBS = 8`.
 
 
 ## Offline design and online monitoring (Phase I / Phase II interpretation)
