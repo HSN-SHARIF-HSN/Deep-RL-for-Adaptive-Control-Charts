@@ -160,9 +160,20 @@ The notebooks use only these third-party packages together with Python standard-
 The notebooks are simulation based; no external empirical dataset is required. The process observations used for training and evaluation are generated within the simulation environment defined in the notebooks. Thus, the simulation generator itself provides the example data needed to execute and verify the implementation.
 The default parameter and hyperparameter values used in the paper are retained in the notebooks. Users may modify these values to investigate alternative design settings and rerun the corresponding calibration, training, and evaluation procedures.
 
-### Parallel computation and exact reproducibility
+### Parallel computation and reproducibility
 
-The notebooks set `N_JOBS = min(8, max(1, os.cpu_count() - 1))`. Monte Carlo replications are divided among these workers, with deterministic worker-specific random seeds. Therefore, machines with different CPU counts may use different random-number streams and produce slightly different Monte Carlo estimates. For exact replication of the reported computational streams, set `N_JOBS = 8`, which is the setting used for the reported runs.
+The notebooks determine the number of parallel workers using
+`N_JOBS = min(8, max(1, os.cpu_count() - 1))`. Thus, up to 8 workers are
+used while leaving one logical CPU available. A machine reporting at
+least 9 logical CPUs will therefore use `N_JOBS = 8` automatically;
+for example, a machine with 8 logical CPUs will use 7 workers, while a
+machine with 4 will use 3.
+
+Monte Carlo replications are divided among workers using deterministic
+worker-specific random seeds. Consequently, using a different number of
+workers may lead to small differences in Monte Carlo estimates. To
+reproduce the same parallel random-number streams used for the reported
+results, set `N_JOBS = 8`.
 
 
 ## Offline design and online monitoring (Phase I / Phase II interpretation)
