@@ -172,7 +172,7 @@ worker-specific random seeds. Consequently, machines using different
 numbers of workers may produce different Monte Carlo estimates,
 although the same computational procedure is followed and the main
 training seed is held fixed (12345). The reported results were obtained
-with `N_JOBS = 8`.
+with `N_JOBS = 8`. We have therefore set N_JOBS = 8 explicitly in these notebooks so that users with fewer logical CPUs use the same Monte Carlo worker configuration; on such machines, computation may simply take longer
 
 
 ## Offline design and online monitoring (Phase I / Phase II interpretation)
