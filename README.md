@@ -232,3 +232,4 @@ The numerical study is a proof-of-concept under the simulation assumptions descr
 ## Citation
 
 When using or extending this code, please cite the associated paper.
+https://doi.org/10.1016/j.eswa.2026.134414
