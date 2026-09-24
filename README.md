@@ -205,6 +205,13 @@ For an empirical application, the present notebooks should be viewed as a refere
 
 Because the learned policy is configuration-specific, changes to the process model, EWMA smoothing parameter, control-chart target, admissible action space, or resource targets generally require offline recalibration and retraining before deployment. If the in-control mean and standard deviation are unknown, they must first be estimated from suitable Phase I reference data before applying the present framework.
 
+**Note:** For more stable training of the general (70-action) DQN, consider
+a slower epsilon decay, a lower learning rate, and a larger replay buffer
+than the notebook's default settings. The larger action space benefits from
+a longer exploration phase. For reference, `epsilon_decay=0.999` in both
+training stages, `lr=1e-4` (initial stage) / `lr=5e-5` (fine-tuning), and a
+replay buffer of `100,000` transitions worked well in our testing.
+
 ## Main design settings
 
 The principal implementation uses:
