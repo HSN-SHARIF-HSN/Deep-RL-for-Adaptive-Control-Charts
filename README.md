@@ -210,7 +210,7 @@ a slower epsilon decay, a lower learning rate, and a larger replay buffer
 than the notebook's default settings. The larger action space benefits from
 a longer exploration phase. For reference, `epsilon_decay=0.999` in both
 training stages, `lr=1e-4` (initial stage) / `lr=5e-5` (fine-tuning), and a
-replay buffer of `100,000` transitions worked well in our testing.
+replay buffer (buffer_size) of `100,000` transitions worked well in our testing.
 
 ## Main design settings
 
